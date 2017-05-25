@@ -8,16 +8,21 @@ CLASSES = $(SOURCES:.java=.class)
 run: java/Lox.class
 	$(JAVA) Lox
 
-java/Lox.class: $(SOURCES) java/Expr.java
-	$(JAVAC) java/Lox.java
-
-java/Expr.java: java/GenerateAst.class
-	$(JAVA) GenerateAst java
+ast: java/AstPrinter.class
+	$(JAVA) AstPrinter
 
 clean:
 	rm -f java/*.class java/Expr.java
 
+java/Lox.class: $(SOURCES) java/Expr.java
+	$(JAVAC) java/Lox.java
+
+java/AstPrinter.class: java/Expr.class
+
+java/Expr.java: java/GenerateAst.class
+	$(JAVA) GenerateAst java
+
 %.class: %.java
 	$(JAVAC) $<
 
-.PHONY: run clean
+.PHONY: run ast clean
