@@ -1,30 +1,32 @@
 
-JAVAC = javac -cp java
-JAVA = java -cp java
-SOURCES = $(wildcard java/*.java)
+export CLASSPATH = src/java
+SOURCES = $(wildcard src/java/*.java) src/java/Expr.java
 CLASSES = $(SOURCES:.java=.class)
 
 
-all: java/Lox.class java/AstPrinter.class
+all: lox ast
 
-run: java/Lox.class
-	$(JAVA) Lox
+lox: src/java/Expr.class src/java/Lox.class
 
-ast: java/AstPrinter.class
-	$(JAVA) AstPrinter
+ast: src/java/Expr.class src/java/AstPrinter.class 
+	java AstPrinter
+
+run: lox
+	java Lox
 
 clean:
-	rm -f java/*.class java/Expr.java
+	rm -f src/java/*.class src/java/Expr.java
 
-java/Lox.class: $(SOURCES) java/Expr.java
-	$(JAVAC) java/Lox.java
+tags: $(SOURCES)
+	ctags -R .
 
-java/AstPrinter.class: java/Expr.class
+src/java/Lox.class: $(SOURCES)
+	javac src/java/Lox.java
 
-java/Expr.java: java/GenerateAst.class
-	$(JAVA) GenerateAst java
+src/java/Expr.java: src/java/GenerateAst.class
+	java GenerateAst src/java/
 
 %.class: %.java
-	$(JAVAC) $<
+	javac $<
 
-.PHONY: all run ast clean
+.PHONY: all lox ast run clean
