@@ -5,6 +5,8 @@ SOURCES = $(wildcard java/*.java)
 CLASSES = $(SOURCES:.java=.class)
 
 
+all: java/Lox.class java/AstPrinter.class
+
 run: java/Lox.class
 	$(JAVA) Lox
 
@@ -25,4 +27,4 @@ java/Expr.java: java/GenerateAst.class
 %.class: %.java
 	$(JAVAC) $<
 
-.PHONY: run ast clean
+.PHONY: all run ast clean
