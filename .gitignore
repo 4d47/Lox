@@ -1,3 +1,5 @@
 
-java/Expr.java
-java/*.class
+src/java/Expr.java
+src/java/*.class
+target/
+tags
