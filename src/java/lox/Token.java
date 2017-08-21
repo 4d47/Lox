@@ -1,3 +1,6 @@
+package lox;
+
+import lox.TokenType;
 
 class Token {
   final TokenType type;

@@ -1,3 +1,6 @@
+package lox;
+
+import lox.Expr;
 
 class AstPrinter implements Expr.Visitor<String> {
   String print(Expr expr) {

@@ -1,3 +1,4 @@
+package lox;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import java.util.Map;
+
+import lox.Token;
+import lox.TokenType;
 
 
 public class Lox {
@@ -48,12 +52,10 @@ public class Lox {
   }
 
   private static void run(String source) {
-    Scanner scanner = new Scanner(source);
-    List<Token> tokens = scanner.scanTokens();
-
-    for (Token token : tokens) {
-      System.out.println(token);
-    }
+    List<Token> tokens = new Scanner(source).scanTokens();
+    Expr expression = new Parser(tokens).parse();
+    if (hadError) return;
+    System.out.println(new AstPrinter().print(expression));
   }
 
   static void error(int line, String message) {

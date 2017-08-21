@@ -1,6 +1,7 @@
 
 JRE = java
 JCC =  javac
+SRC = src/java/lox
 JFLAGS = -cp src/java
  
 .SUFFIXES: .java .class
@@ -8,21 +9,20 @@ JFLAGS = -cp src/java
 
 all: lox ast
 
-lox: src/java/Expr.class src/java/Lox.class
+lox: $(SRC)/Expr.class $(SRC)/Lox.class
 
-ast: src/java/Expr.class src/java/AstPrinter.class 
-	$(JRE) $(JFLAGS) AstPrinter
+ast: $(SRC)/Expr.class $(SRC)/AstPrinter.class 
+	$(JRE) $(JFLAGS) lox.AstPrinter
 
 run: lox
-	$(JRE) $(JFLAGS) Lox
+	$(JRE) $(JFLAGS) lox.Lox
 
 clean:
-	rm -f src/java/*.class src/java/Expr.java
+	rm -f $(SRC)/*.class $(SRC)/Expr.java
 
-src/java/Expr.java: src/java/GenerateAst.class
-	$(JRE) $(JFLAGS) GenerateAst src/java
+$(SRC)/Expr.java: $(SRC)/GenerateAst.class
+	$(JRE) $(JFLAGS) lox.GenerateAst $(SRC)
 
 .java.class:
 	$(JCC) $(JFLAGS) $<
-
 
