@@ -57,10 +57,10 @@ public class Lox {
 
   private static void run(String source) {
     List<Token> tokens = new Scanner(source).scanTokens();
-    Expr expression = new Parser(tokens).parse();
+    Parser parser = new Parser(tokens);
+    List<Stmt> statements = parser.parse();
     if (hadError) return;
-    interpreter.interpret(expression);
-    // System.out.println(new AstPrinter().print(expression));
+    interpreter.interpret(statements);
   }
 
   static void error(int line, String message) {
